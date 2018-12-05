@@ -1,6 +1,5 @@
 package cz.trackme.domain
 
-import cz.trackme.domain.model.Name
 import cz.trackme.domain.model.User
 
 object UserDataFactory {
@@ -8,7 +7,8 @@ object UserDataFactory {
     fun makeUser(): User {
         return User(
                 id = UtilsFactory.randomUuid(),
-                name = Name("First name", "Last name"),
+                firstName = "First name",
+                lastName = "Last name",
                 avatar = UtilsFactory.randomUuid(),
                 phone = UtilsFactory.randomUuid(),
                 email = UtilsFactory.randomUuid(),

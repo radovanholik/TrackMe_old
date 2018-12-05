@@ -2,7 +2,8 @@ package cz.trackme.domain.model
 
 data class User(
         var id: String,
-        val name: Name,
+        val firstName: String,
+        val lastName: String,
         val avatar: String,
         val phone: String,
         val email: String,
