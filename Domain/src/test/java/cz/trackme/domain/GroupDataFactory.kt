@@ -1,4 +1,4 @@
-
+package cz.trackme.domain
 import cz.trackme.domain.model.Group
 import java.util.*
 

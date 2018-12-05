@@ -1,6 +1,6 @@
-package group
+package cz.trackme.domain.group
 
-import GroupDataFactory
+import cz.trackme.domain.GroupDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify

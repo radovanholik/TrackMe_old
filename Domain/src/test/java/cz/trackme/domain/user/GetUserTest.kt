@@ -1,11 +1,11 @@
-package user
+package cz.trackme.domain.user
 
-import UserDataFactory
-import UtilsFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import cz.trackme.domain.UserDataFactory
+import cz.trackme.domain.UtilsFactory
 import cz.trackme.domain.executor.PostExecutionThread
 import cz.trackme.domain.interactor.user.GetUser
 import cz.trackme.domain.model.User

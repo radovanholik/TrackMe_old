@@ -1,3 +1,5 @@
+package cz.trackme.domain
+
 import cz.trackme.domain.model.Location
 import java.util.*
 

@@ -1,6 +1,6 @@
-package user
+package cz.trackme.domain.user
 
-import UserDataFactory
+import cz.trackme.domain.UserDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -10,8 +10,6 @@ import cz.trackme.domain.interactor.user.SaveUser
 import cz.trackme.domain.repository.UserRepository
 import io.reactivex.Completable
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 
 class SaveUserTest {
 

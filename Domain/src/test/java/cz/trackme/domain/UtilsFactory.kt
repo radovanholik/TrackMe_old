@@ -1,3 +1,5 @@
+package cz.trackme.domain
+
 object UtilsFactory {
 
     fun randomUuid(): String {

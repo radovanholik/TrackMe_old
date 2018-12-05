@@ -1,7 +1,7 @@
-package location
+package cz.trackme.domain.location
 
-import LocationDataFactory
-import UtilsFactory
+import cz.trackme.domain.LocationDataFactory
+import cz.trackme.domain.UtilsFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify

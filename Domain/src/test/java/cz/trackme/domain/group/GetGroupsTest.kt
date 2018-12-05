@@ -1,10 +1,10 @@
-package group
+package cz.trackme.domain.group
 
-import GroupDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import cz.trackme.domain.GroupDataFactory
 import cz.trackme.domain.executor.PostExecutionThread
 import cz.trackme.domain.interactor.group.GetGroups
 import cz.trackme.domain.model.Group

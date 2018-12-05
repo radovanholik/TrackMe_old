@@ -1,3 +1,5 @@
+package cz.trackme.domain
+
 import cz.trackme.domain.model.Name
 import cz.trackme.domain.model.User
 
