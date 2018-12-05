@@ -1,0 +1,8 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    compile project(':Domain')
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
