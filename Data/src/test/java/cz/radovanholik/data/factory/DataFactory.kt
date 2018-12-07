@@ -20,4 +20,13 @@ object DataFactory {
     fun randomBoolean(): Boolean {
         return Math.random() < 0.5
     }
+
+    fun randomListOfStrings(count: Int): List<String> {
+        val list = mutableListOf<String>()
+        repeat(count) {
+            list.add(randomString())
+        }
+
+        return list
+    }
 }

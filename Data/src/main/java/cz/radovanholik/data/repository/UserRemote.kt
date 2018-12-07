@@ -4,7 +4,7 @@ import cz.radovanholik.data.model.UserEntity
 import io.reactivex.Completable
 import io.reactivex.Observable
 
-interface UserFiretore {
+interface UserRemote {
 
     fun saveUser(user: UserEntity): Completable
 

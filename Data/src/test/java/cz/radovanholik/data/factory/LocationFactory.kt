@@ -5,7 +5,7 @@ import cz.trackme.domain.model.Location
 
 object LocationFactory {
 
-    fun makeEntityLocation(): LocationEntity {
+    fun makeLocationEntity(): LocationEntity {
         return LocationEntity(
                 uid = DataFactory.randomString(),
                 latitude = DataFactory.randomLong(),
@@ -14,10 +14,10 @@ object LocationFactory {
         )
     }
 
-    fun makeEntityLocations(size: Int) : List<LocationEntity> {
+    fun makeLocationEntity(size: Int) : List<LocationEntity> {
         val locations = mutableListOf<LocationEntity>()
         repeat(size) {
-            locations.add(makeEntityLocation())
+            locations.add(makeLocationEntity())
         }
 
         return locations

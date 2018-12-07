@@ -4,10 +4,10 @@ import cz.radovanholik.data.model.UserEntity
 import cz.trackme.domain.model.User
 import javax.inject.Inject
 
-class UserMapper @Inject constructor(val locationMapper: LocationMapper) : EntityMapper<UserEntity, User>{
+open class UserMapper @Inject constructor(val locationMapper: LocationMapper) : EntityMapper<UserEntity, User>{
 
     override fun mapFromEntity(entity: UserEntity): User {
-        return User(
+        return User (
                 id = entity.id,
                 firstName = entity.firstName,
                 lastName = entity.lastName,
@@ -19,7 +19,7 @@ class UserMapper @Inject constructor(val locationMapper: LocationMapper) : Entit
     }
 
     override fun mapToEntity(domain: User): UserEntity {
-        return UserEntity(
+        return UserEntity (
                 id = domain.id,
                 firstName = domain.firstName,
                 lastName = domain.lastName,

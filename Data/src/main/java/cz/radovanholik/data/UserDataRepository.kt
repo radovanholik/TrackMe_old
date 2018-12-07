@@ -14,7 +14,7 @@ class UserDataRepository @Inject constructor(
     : UserRepository {
 
     override fun saveUser(user: User): Completable {
-         return factory.getDataStore().saveUser(mapper.mapToEntity(user))
+        return factory.getDataStore().saveUser(mapper.mapToEntity(user))
     }
 
     override fun getUser(userId: String): Observable<User> {

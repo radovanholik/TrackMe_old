@@ -14,7 +14,7 @@ object UserFactory {
                 phone = DataFactory.randomString(),
                 email = DataFactory.randomString(),
                 groupIds = listOf(DataFactory.randomString(), DataFactory.randomString()),
-                lastKnownLocations = LocationFactory.makeEntityLocations(3)
+                lastKnownLocations = LocationFactory.makeLocationEntity(3)
         )
     }
 

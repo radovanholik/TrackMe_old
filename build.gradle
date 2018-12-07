@@ -80,12 +80,28 @@ ext {
     domainDependencies = [
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxJava:             "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}"
+            rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}"
     ]
 
     domainTestDependencies = [
             junit:              "junit:junit:${jUnitVersion}",
             mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
             assertj:            "org.assertj:assertj-core:${assertJVersion}"
+    ]
+
+    // Data
+    dataDependencies = [
+            rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
+    ]
+
+    dataTestDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            kotlinJUnit:        "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}",
+            assertj:            "org.assertj:assertj-core:${assertJVersion}",
+            mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}"
     ]
 }

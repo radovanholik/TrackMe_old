@@ -4,7 +4,7 @@ import cz.radovanholik.data.model.LocationEntity
 import cz.trackme.domain.model.Location
 import javax.inject.Inject
 
-class LocationMapper @Inject constructor() : EntityMapper<LocationEntity, Location> {
+open class LocationMapper @Inject constructor() : EntityMapper<LocationEntity, Location> {
 
     override fun mapFromEntity(entity: LocationEntity): Location {
         return Location (
