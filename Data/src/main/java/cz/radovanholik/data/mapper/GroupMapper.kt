@@ -4,7 +4,7 @@ import cz.radovanholik.data.model.GroupEntity
 import cz.trackme.domain.model.Group
 import javax.inject.Inject
 
-class GroupMapper @Inject constructor() : EntityMapper<GroupEntity, Group> {
+open class GroupMapper @Inject constructor() : EntityMapper<GroupEntity, Group> {
 
     override fun mapFromEntity(entity: GroupEntity): Group {
         return Group(

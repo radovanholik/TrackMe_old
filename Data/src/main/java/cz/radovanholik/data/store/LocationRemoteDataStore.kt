@@ -7,7 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class LocationRemoteDataStore @Inject constructor(private val locationRemote: LocationRemote)
+open class LocationRemoteDataStore @Inject constructor(private val locationRemote: LocationRemote)
     : LocationDataStore {
 
     override fun addLocation(userId: String, location: LocationEntity): Completable {

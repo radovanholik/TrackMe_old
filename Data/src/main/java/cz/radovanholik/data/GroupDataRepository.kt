@@ -12,6 +12,7 @@ class GroupDataRepository @Inject constructor(
         private val mapper: GroupMapper,
         private val factory: GroupDataStoreFactory)
     : GroupRepository {
+
     override fun saveGroup(group: Group): Completable {
         return factory.getDataStore().saveGroup(mapper.mapToEntity(group))
     }

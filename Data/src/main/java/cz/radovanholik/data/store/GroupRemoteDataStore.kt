@@ -7,7 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class GroupRemoteDataStore @Inject constructor(
+open class GroupRemoteDataStore @Inject constructor(
         private val groupRemote: GroupRemote)
     : GroupDataStore {
 
