@@ -109,7 +109,8 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
-            firestore:          "com.google.firebase:firebase-firestore:${firestoreVersion}"
+            firestore:          "com.google.firebase:firebase-firestore:${firestoreVersion}",
+            firebaseCore:       "com.google.firebase:firebase-core:${firebaseCoreVersion}"
     ]
 
     remoteTestDependencies = [
