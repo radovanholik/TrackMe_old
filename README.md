@@ -25,6 +25,6 @@ Version 1.0
 - Firestore for real-time communication
 
 Version 2.0 - upgrade in the future should contain:
-- The Room Architecture Component or Realm for local data persistence
+- The Room Architecture Component or Realm or local data persistence
 - Retrofit for our network request
 - Create REST API for writing data to Firestore (client should just listen for data changes)
