@@ -1,7 +1,7 @@
 package cz.trackme.remote
 
-import cz.radovanholik.data.model.UserEntity
-import cz.radovanholik.data.repository.UserRemote
+import cz.trackme.data.model.UserEntity
+import cz.trackme.data.repository.UserRemote
 import io.reactivex.Completable
 import io.reactivex.Observable
 

@@ -1,9 +1,21 @@
-apply plugin: 'java-library'
+apply plugin: 'kotlin'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(':Data')
+
+    implementation remoteDependencies.rxKotlin
+    implementation remoteDependencies.kotlin
+    implementation remoteDependencies.javaxAnnotation
+    implementation remoteDependencies.javaxInject
+    implementation remoteDependencies.androidAnnotations
+    implementation remoteDependencies.firestore
+
+    // test
+    testImplementation remoteTestDependencies.junit
+    testImplementation remoteTestDependencies.kotlinJUnit
+    testImplementation remoteTestDependencies.assertj
+    testImplementation remoteTestDependencies.mockito
 }
 
 sourceCompatibility = "7"
