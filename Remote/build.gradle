@@ -1,7 +1,31 @@
-apply plugin: 'kotlin'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation project(':Data')
 
     implementation remoteDependencies.rxKotlin
@@ -11,12 +35,16 @@ dependencies {
     implementation remoteDependencies.androidAnnotations
     implementation remoteDependencies.firestore
 
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+
     // test
     testImplementation remoteTestDependencies.junit
     testImplementation remoteTestDependencies.kotlinJUnit
     testImplementation remoteTestDependencies.assertj
     testImplementation remoteTestDependencies.mockito
+    androidTestImplementation remoteTestDependencies.junit
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+apply plugin: 'com.google.gms.google-services'
