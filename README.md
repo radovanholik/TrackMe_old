@@ -5,9 +5,9 @@ The app is being built with the principles of Clean Architecture. These principl
 manageable state. The app ver 1.0 will contain several layers (modules) to handle principles of Clean Architecture:
 - Domain
 - Data 
-- Remote
+- Remote (in progress)
 - Cache (planned for version 2.0)
-- UI
+- UI (in progress)
 
 
 
