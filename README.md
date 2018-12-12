@@ -17,7 +17,6 @@ implemented, the app ver. 1.0. is still in progress and all technologies and lib
 Version 1.0
 - Kotlin as a language to code in
 - Lifecycle Architecture Components for our View Model classes
-- Retrofit for our network request
 - RxJava to handle the orchestration and execution of data operations
 - Dagger 2 for Dependency Injection
 - Design support library for our UI components
