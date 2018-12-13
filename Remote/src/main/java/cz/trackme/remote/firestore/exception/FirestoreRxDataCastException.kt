@@ -1,4 +1,4 @@
-package cz.trackme.remote.firestore
+package cz.trackme.remote.firestore.exception
 
 class FirestoreRxDataCastException : Exception {
 
