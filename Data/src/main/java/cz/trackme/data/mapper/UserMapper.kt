@@ -15,7 +15,7 @@ open class UserMapper @Inject constructor(val locationMapper: LocationMapper) : 
                 phone = entity.phone,
                 email = entity.email,
                 groupIds = entity.groupIds,
-                lastKnownLocations = entity.lastKnownLocations.map { locationMapper.mapFromEntity(it) })
+                lastKnownLocations = entity.lastKnownLocations?.map { locationMapper.mapFromEntity(it) })
     }
 
     override fun mapToEntity(domain: User): UserEntity {
@@ -27,6 +27,6 @@ open class UserMapper @Inject constructor(val locationMapper: LocationMapper) : 
                 phone = domain.phone,
                 email = domain.email,
                 groupIds = domain.groupIds,
-                lastKnownLocations = domain.lastKnownLocations.map { locationMapper.mapToEntity(it) })
+                lastKnownLocations = domain.lastKnownLocations?.map { locationMapper.mapToEntity(it) })
     }
 }

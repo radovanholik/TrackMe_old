@@ -34,7 +34,7 @@ class LocationMapperTest {
                         model: Location) {
 
         assertEquals(entity.uid, model.uid)
-        assertEquals(entity.latitude, model.longitude)
+        assertEquals(entity.latitude, model.latitude)
         assertEquals(entity.longitude, model.longitude)
         assertEquals(entity.timestamp, model.timestamp)
     }
