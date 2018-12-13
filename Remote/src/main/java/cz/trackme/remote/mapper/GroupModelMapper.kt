@@ -14,4 +14,13 @@ class GroupModelMapper @Inject constructor(): ModelMapper<GroupModel, GroupEntit
                 createdAt = model.createdAt
         )
     }
+
+    override fun mapToModel(entity: GroupEntity): GroupModel {
+        return GroupModel(
+                id = entity.id,
+                name = entity.name,
+                userIds = entity.userIds,
+                createdAt = entity.createdAt
+        )
+    }
 }

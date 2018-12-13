@@ -15,4 +15,13 @@ class LocationModelMapper @Inject constructor(): ModelMapper<LocationModel, Loca
         )
     }
 
+    override fun mapToModel(entity: LocationEntity): LocationModel {
+        return LocationModel(
+                uid = entity.uid,
+                latitude = entity.latitude,
+                longitude = entity.longitude,
+                timestamp = entity.timestamp
+        )
+    }
+
 }
