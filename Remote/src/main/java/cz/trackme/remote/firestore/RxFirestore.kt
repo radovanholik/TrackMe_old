@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import cz.trackme.remote.firestore.exception.FirestoreRxDataCastException
 import cz.trackme.remote.firestore.exception.FirestoreRxDataException
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 object RxFirestore {
@@ -79,7 +80,10 @@ object RxFirestore {
     }
 
     // TODO - convert it to Single
-    fun <T> getObservableDocumentsByFieldValue(colReference: CollectionReference, fieldName: String, values: List<String>, clazz: Class<T>) : Observable<List<T>> {
+    fun <T> getObservableDocumentsByFieldValue(colReference: CollectionReference, fieldName: String,
+                                               values: List<String>, clazz: Class<T>)
+            : Observable<List<T>> {
+
         return Observable.create { emitter ->
 
             val results = mutableListOf<T>()
@@ -99,6 +103,33 @@ object RxFirestore {
                     }
                     .addOnFailureListener { exception ->
                         if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(exception))
+                    }
+        }
+    }
+
+    /**
+     * The method saves a POJO class to the specific document. There is no merging strategy applied.
+     */
+    fun saveDocument(docReference: DocumentReference, pojo: Any): Completable {
+        return Completable.create{ emitter ->
+            docReference.set(pojo, SetOptions.merge())
+                    .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }
+                    .addOnFailureListener {
+                        if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
+                    }
+        }
+    }
+
+    /**
+     * The method updates document values ([V]) for given fields ([K])
+     */
+    fun <K, V> updateSpecificFieldValues(docReference: DocumentReference, data: Map<K, V>)
+        : Completable {
+        return Completable.create { emitter ->
+            docReference.set(data, SetOptions.merge())
+                    .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }
+                    .addOnFailureListener {
+                        if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
                     }
         }
     }
