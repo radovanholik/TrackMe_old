@@ -7,4 +7,6 @@ object FirestoreConstants {
     const val COLLECTION_LOCATIONS = "locations"
 
     const val USER_ID_FIELD = "id"
+    const val USER_GROUP_IDS = "groupIds"
+    const val USER_LAST_KNOWN_LOCATIONS_FIELD = "lastKnownLocations"
 }
