@@ -15,7 +15,7 @@ class UserModelMapper @Inject constructor(val locationMapper: LocationModelMappe
                 phone = model.phone,
                 email = model.email,
                 groupIds = model.groupIds,
-                lastKnownLocations = model.lastKnownLocations.map { locationMapper.mapFromModel(it) }
+                lastKnownLocations = model.lastKnownLocations?.map { locationMapper.mapFromModel(it) }
         )
     }
 
@@ -28,7 +28,7 @@ class UserModelMapper @Inject constructor(val locationMapper: LocationModelMappe
                 phone = entity.phone,
                 email = entity.email,
                 groupIds = entity.groupIds,
-                lastKnownLocations = entity.lastKnownLocations.map { locationMapper.mapToModel(it) }
+                lastKnownLocations = entity.lastKnownLocations?.map { locationMapper.mapToModel(it) }
         )
     }
 }
