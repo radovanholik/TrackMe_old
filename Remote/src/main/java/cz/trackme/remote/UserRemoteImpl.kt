@@ -14,7 +14,7 @@ class UserRemoteImpl @Inject constructor(
     : UserRemote {
 
     override fun saveUser(user: UserEntity): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return userFirestoreService.saveUser(mapper.mapToModel(user))
     }
 
     override fun getUser(userId: String): Observable<UserEntity> {
