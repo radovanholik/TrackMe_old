@@ -1,5 +1,6 @@
 package cz.trackme.domain.interactor.location
 
+import cz.trackme.domain.Constants.GET_LOCATIONS_DEFAULT_LIMIT
 import cz.trackme.domain.executor.PostExecutionThread
 import cz.trackme.domain.interactor.ObservableUseCase
 import cz.trackme.domain.model.Location
@@ -20,9 +21,9 @@ class GetLocations @Inject constructor(
         return locationRepository.getLocations(params.userId, params.limit)
     }
 
-    data class Params constructor(val userId: String, val limit: Int) {
+    data class Params constructor(val userId: String, val limit: Int = GET_LOCATIONS_DEFAULT_LIMIT) {
         companion object {
-            fun forLocation(userId: String, limit: Int): Params {
+            fun forLocation(userId: String, limit: Int = GET_LOCATIONS_DEFAULT_LIMIT): Params {
                 return Params(userId, limit)
             }
         }

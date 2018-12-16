@@ -1,8 +1,10 @@
 package cz.trackme.remote.model
 
+import java.util.*
+
 data class GroupModel (
-        val id: String,
+        override var id: String? = null,
         val name: String,
         val userIds: List<String>? = null,
-        val createdAt: Long
-)
+        val createdAt: Date
+) : FirestoreModel()

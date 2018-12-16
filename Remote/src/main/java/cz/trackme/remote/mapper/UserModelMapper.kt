@@ -8,7 +8,7 @@ class UserModelMapper @Inject constructor(val locationMapper: LocationModelMappe
 
     override fun mapFromModel(model: UserModel): UserEntity {
         return UserEntity(
-                id = model.id,
+                id = model.id!!,
                 firstName = model.firstName,
                 lastName = model.lastName,
                 avatar = model.avatar,

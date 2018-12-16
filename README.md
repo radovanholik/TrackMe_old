@@ -1,5 +1,5 @@
 # TrackMe - Version 1.0 still in progress
-This is a real-time tracking app for group of people. Users can easily share their current location with other people within the same group.
+This is an <b>experimental</b> real-time tracking app for group of people. Users can easily share their current location with other people within the same group.
 
 The app is being built with the principles of Clean Architecture. These principles help to get the codebase under control and in a more 
 manageable state. The app ver 1.0 will contain several layers (modules) to handle principles of Clean Architecture:

@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import cz.trackme.remote.firestore.exception.FirestoreRxDataCastException
 import cz.trackme.remote.firestore.exception.FirestoreRxDataException
+import cz.trackme.remote.model.FirestoreModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 
@@ -88,7 +89,7 @@ object RxFirestore {
 
             val results = mutableListOf<T>()
 
-            values.forEachIndexed { index, value ->
+            values.forEach { value ->
                 colReference.whereEqualTo(fieldName, value)
             }
 
@@ -108,11 +109,16 @@ object RxFirestore {
     }
 
     /**
-     * The method saves a POJO class to the specific document. There is no merging strategy applied.
+     * The method adds a new document. If the pojo class doesn't have set an ID,
+     * then the document ID is created first, updated in [pojo] and then saved
+     * in Firestore.
      */
-    fun saveDocument(docReference: DocumentReference, pojo: Any): Completable {
-        return Completable.create{ emitter ->
-            docReference.set(pojo, SetOptions.merge())
+    fun addDocument(colReference: CollectionReference, pojo: FirestoreModel) : Completable {
+        return Completable.create { emitter ->
+            val newDocRef = colReference.document()
+            pojo.id = newDocRef.id
+
+            newDocRef.set(pojo)
                     .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }
                     .addOnFailureListener {
                         if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
@@ -121,13 +127,62 @@ object RxFirestore {
     }
 
     /**
-     * The method updates document values ([V]) for given fields ([K])
+     * The method sets a POJO class to the specific document. There is no merging strategy applied.
+     * So, data are always overwritten.
      */
-    fun <K, V> updateSpecificFieldValues(docReference: DocumentReference, data: Map<K, V>)
+    fun setDocument(docReference: DocumentReference, pojo: Any): Completable {
+        return Completable.create{ emitter ->
+            docReference.set(pojo)
+                    .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }
+                    .addOnFailureListener {
+                        if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
+                    }
+        }
+    }
+
+    /**
+     * The method updates document values for given fields. Merge option applied.
+     * @param data Represents a set of data to update. Key = field name, Value = any object to update.
+     */
+    fun updateSpecificFieldValues(docReference: DocumentReference, data: Map<String, Any>)
         : Completable {
+
         return Completable.create { emitter ->
             docReference.set(data, SetOptions.merge())
                     .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }
+                    .addOnFailureListener {
+                        if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
+                    }
+        }
+    }
+
+    /**
+     * This methods executes multiple write operations as a single batch. A batch of writes
+     * completes atomically and can write to multiple documents. Batched writes execute even when
+     * the user's device is offline.
+     *
+     * Follow external url:
+     * *https://firebase.google.com/docs/firestore/manage-data/transactions*
+     *
+     * @param data Key - doc reference, Value - map of field updates
+     * (Key - field name, Value - new field value)
+     */
+    private fun updateDocumentValuesWithinBatch(data: Map<DocumentReference, Map<String, Any>>): Completable {
+        return Completable.create { emitter ->
+            // Get a new write batch
+            val batch = getDb().batch()
+
+            // Iterate through all Document References
+            data.forEach { (docRef, docData) ->
+                // Update field values for the given document
+                batch.update(docRef, docData)
+            }
+
+            // Commit the batch
+            batch.commit()
+                    .addOnCompleteListener {
+                        if (!emitter.isDisposed) emitter.onComplete()
+                    }
                     .addOnFailureListener {
                         if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
                     }
