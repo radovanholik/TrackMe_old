@@ -8,7 +8,7 @@ class GroupModelMapper @Inject constructor(): ModelMapper<GroupModel, GroupEntit
 
     override fun mapFromModel(model: GroupModel): GroupEntity {
         return GroupEntity(
-                id = model.id!!,
+                id = model.id,
                 name = model.name,
                 userIds = model.userIds,
                 createdAt = model.createdAt

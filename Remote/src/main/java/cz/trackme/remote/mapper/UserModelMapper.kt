@@ -8,13 +8,14 @@ class UserModelMapper @Inject constructor(val locationMapper: LocationModelMappe
 
     override fun mapFromModel(model: UserModel): UserEntity {
         return UserEntity(
-                id = model.id!!,
+                id = model.id,
                 firstName = model.firstName,
                 lastName = model.lastName,
                 avatar = model.avatar,
                 phone = model.phone,
                 email = model.email,
                 groupIds = model.groupIds,
+                timestamp = model.timestamp,
                 lastKnownLocations = model.lastKnownLocations?.map { locationMapper.mapFromModel(it) }
         )
     }
@@ -28,6 +29,7 @@ class UserModelMapper @Inject constructor(val locationMapper: LocationModelMappe
                 phone = entity.phone,
                 email = entity.email,
                 groupIds = entity.groupIds,
+                timestamp = entity.timestamp,
                 lastKnownLocations = entity.lastKnownLocations?.map { locationMapper.mapToModel(it) }
         )
     }

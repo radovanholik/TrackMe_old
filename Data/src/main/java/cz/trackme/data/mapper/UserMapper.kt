@@ -15,6 +15,7 @@ open class UserMapper @Inject constructor(val locationMapper: LocationMapper) : 
                 phone = entity.phone,
                 email = entity.email,
                 groupIds = entity.groupIds,
+                timestamp = entity.timestamp,
                 lastKnownLocations = entity.lastKnownLocations?.map { locationMapper.mapFromEntity(it) })
     }
 
@@ -27,6 +28,7 @@ open class UserMapper @Inject constructor(val locationMapper: LocationMapper) : 
                 phone = domain.phone,
                 email = domain.email,
                 groupIds = domain.groupIds,
+                timestamp = domain.timestamp,
                 lastKnownLocations = domain.lastKnownLocations?.map { locationMapper.mapToEntity(it) })
     }
 }

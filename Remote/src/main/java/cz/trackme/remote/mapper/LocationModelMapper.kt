@@ -8,7 +8,7 @@ class LocationModelMapper @Inject constructor(): ModelMapper<LocationModel, Loca
 
     override fun mapFromModel(model: LocationModel): LocationEntity {
         return LocationEntity(
-                uid = model.id!!,
+                uid = model.id,
                 latitude = model.latitude,
                 longitude = model.longitude,
                 timestamp = model.timestamp
