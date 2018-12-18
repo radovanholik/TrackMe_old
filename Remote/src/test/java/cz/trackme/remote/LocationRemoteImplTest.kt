@@ -1,5 +1,5 @@
 package cz.trackme.remote
 
-class UserRemoteImplTest {
+class LocationRemoteImplTest {
     // TODO
 }
