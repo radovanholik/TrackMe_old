@@ -8,6 +8,9 @@ import cz.trackme.remote.model.FirestoreModel
 import io.reactivex.Completable
 import io.reactivex.Observable
 
+/**
+ * Contains a bunch of helper methods to communicate with Firebase database.
+ */
 object RxFirestore {
 
     private val TAG = RxFirestore::class.java.name
@@ -42,7 +45,10 @@ object RxFirestore {
         }
     }
 
-    fun <T> getObservableDocument(docReference: DocumentReference, clazz: Class<T>): Observable<T> {
+    /**
+     * @return Returns a new observable object that listens for document changes.
+     */
+    fun <T : FirestoreModel> getObservableDocument(docReference: DocumentReference, clazz: Class<T>): Observable<T> {
         return Observable.create { emitter ->
             val listener = docReference.addSnapshotListener(EventListener<DocumentSnapshot> {
                 snapshot, e ->
@@ -81,8 +87,8 @@ object RxFirestore {
     }
 
     /**
-     * This method gets an observable object for listening changes in the given collection.
-     * Listens for "added" documents only. Deleted or modified document changes are not emitted.
+     * This method gets an observable list for listening changes in the given collection.
+     * Listens for "added", "modified" and "removed" documents within the query.
      *
      * @param colReference A collection reference.
      * @param orderByField Represents a field name which can be used for ordering.
@@ -91,34 +97,46 @@ object RxFirestore {
      * @param clazz A class to map from firestore object.
      *
      */
-    fun <T : FirestoreModel> getObservableForAddingDocsInCollection (
+    fun <T : FirestoreModel> getObservableForDocsChangesInCollection (
             colReference: CollectionReference, orderByField: String? = null,
-            orderDirection: Query.Direction = Query.Direction.ASCENDING, limit: Long, clazz: Class<T>): Observable<List<T>> {
+            orderDirection: Query.Direction = Query.Direction.ASCENDING, limit: Int, clazz: Class<T>): Observable<List<T>> {
 
         return Observable.create { emitter ->
-            colReference.limit(limit)
+            colReference.limit(limit.toLong())
             orderByField?.let { fieldName ->
                 colReference.orderBy(fieldName, orderDirection)
             }
 
+            val dataList = mutableListOf<T>()
+
             val listener = colReference
-                    .limit(limit)
                     .addSnapshotListener { querySnapshot, e ->
 
-                if (e != null && !emitter.isDisposed) {
-                    emitter.onError(e)
-                }
+                        // in case some error
+                        if (e != null && !emitter.isDisposed) emitter.onError(e)
 
-                querySnapshot?.let { snapshot ->
-                    // filter document changes
-                    val dcList = snapshot.documentChanges.filter { dc ->
-                        dc.type == DocumentChange.Type.ADDED
-                    }
-                    // map document changes to firebase models
-                    val docList = dcList.map { it.document.toObject(clazz) }
-                    // emit values
-                    if (!emitter.isDisposed) emitter.onNext(docList)
-                }
+                        // ok
+                        querySnapshot?.let { snapshot ->
+                            for (dc in snapshot.documentChanges) {
+                                when (dc.type) {
+                                    DocumentChange.Type.ADDED -> dataList.add(dc.document.toObject(clazz))
+
+                                    DocumentChange.Type.MODIFIED -> {
+                                        val obj = dc.document.toObject(clazz)
+                                        val index = dataList.indexOfFirst { it.id == obj.id }
+                                        if (index > -1) dataList[index] = obj
+                                    }
+
+                                    DocumentChange.Type.REMOVED -> {
+                                        val obj = dc.document.toObject(clazz)
+                                        val index = dataList.indexOfFirst { it.id == obj.id }
+                                        dataList.removeAt(index)
+                                    }
+                                }
+                            }
+
+                            if (!emitter.isDisposed) emitter.onNext(dataList)
+                        }
             }
 
             // remote the listener when disposing
@@ -155,28 +173,10 @@ object RxFirestore {
     }
 
     /**
-     * The method adds a new document. If the pojo class doesn't have set an ID,
-     * then the document ID is created first, updated in [pojo] and then saved
-     * in Firestore.
-     */
-    fun addDocument(colReference: CollectionReference, pojo: FirestoreModel) : Completable {
-        return Completable.create { emitter ->
-            val newDocRef = colReference.document()
-            pojo.id = newDocRef.id
-
-            newDocRef.set(pojo)
-                    .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }
-                    .addOnFailureListener {
-                        if (!emitter.isDisposed) emitter.onError(FirestoreRxDataException(it))
-                    }
-        }
-    }
-
-    /**
      * The method sets a POJO class to the specific document. There is no merging strategy applied.
      * So, data are always overwritten.
      */
-    fun setDocument(docReference: DocumentReference, pojo: Any): Completable {
+    fun <T: FirestoreModel> setDocument(docReference: DocumentReference, pojo: T): Completable {
         return Completable.create{ emitter ->
             docReference.set(pojo)
                     .addOnSuccessListener { if (!emitter.isDisposed) emitter.onComplete() }

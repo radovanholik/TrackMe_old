@@ -17,7 +17,7 @@ class UserServiceImpl @Inject constructor() : UserService {
     private val usersCollectionReference = RxFirestore.getDb().collection(COLLECTION_USERS)
 
     override fun saveUser(user: UserModel): Completable {
-        val docRef = usersCollectionReference.document()
+        val docRef = usersCollectionReference.document(user.id!!)
         return RxFirestore.setDocument(docRef, user)
     }
 

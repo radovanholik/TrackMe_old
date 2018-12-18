@@ -3,7 +3,7 @@ package cz.trackme.remote.model
 import java.util.*
 
 data class UserModel (
-        override var id: String? = null,
+        override val id: String,
         val firstName: String? = null,
         val lastName: String? = null,
         val avatar: String? = null,

@@ -13,16 +13,16 @@ import io.reactivex.Observable
 class LocationServiceImpl : LocationService {
 
     override fun addLocation(userId: String, location: LocationModel): Completable {
-        val docRef = getLocationRef(userId).document()
+        val docRef = getLocationRef(userId).document(location.id)
         return RxFirestore.setDocument(docRef, location)
     }
 
     override fun getLocations(userId: String, limit: Int): Observable<List<LocationModel>> {
-        return RxFirestore.getObservableForAddingDocsInCollection(
+        return RxFirestore.getObservableForDocsChangesInCollection(
                 colReference = getLocationRef(userId),
                 orderByField = FirestoreConstants.LOCATIONS_TIMESTAMP_FIELD,
                 orderDirection = Query.Direction.DESCENDING,
-                limit = limit.toLong(),
+                limit = limit,
                 clazz = LocationModel::class.java
         )
     }
