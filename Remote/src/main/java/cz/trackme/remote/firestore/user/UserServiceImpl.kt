@@ -43,7 +43,8 @@ class UserServiceImpl @Inject constructor() : UserService {
                 clazz = UserModel::class.java)
     }
 
-    override fun getLatestLocationValuesToUpdate(userId: String, locations: List<LocationModel>): Pair<DocumentReference, Map<String, Any>> {
+    override fun getLatestLocationValuesToUpdate(userId: String, locations: List<LocationModel>)
+            : Pair<DocumentReference, Map<String, Any>> {
         val docRef = usersCollectionReference.document(userId)
         val data = mapOf (FirestoreConstants.USER_LAST_KNOWN_LOCATIONS_FIELD to locations)
 

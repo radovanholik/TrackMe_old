@@ -80,8 +80,54 @@ object RxFirestore {
         }
     }
 
+    /**
+     * This method gets an observable object for listening changes in the given collection.
+     * Listens for "added" documents only. Deleted or modified document changes are not emitted.
+     *
+     * @param colReference A collection reference.
+     * @param orderByField Represents a field name which can be used for ordering.
+     * @param orderDirection Represents the rule of ordering. Default value is [Query.Direction.ASCENDING]
+     * @param limit Represents a limit of records.
+     * @param clazz A class to map from firestore object.
+     *
+     */
+    fun <T : FirestoreModel> getObservableForAddingDocsInCollection (
+            colReference: CollectionReference, orderByField: String? = null,
+            orderDirection: Query.Direction = Query.Direction.ASCENDING, limit: Long, clazz: Class<T>): Observable<List<T>> {
+
+        return Observable.create { emitter ->
+            colReference.limit(limit)
+            orderByField?.let { fieldName ->
+                colReference.orderBy(fieldName, orderDirection)
+            }
+
+            val listener = colReference
+                    .limit(limit)
+                    .addSnapshotListener { querySnapshot, e ->
+
+                if (e != null && !emitter.isDisposed) {
+                    emitter.onError(e)
+                }
+
+                querySnapshot?.let { snapshot ->
+                    // filter document changes
+                    val dcList = snapshot.documentChanges.filter { dc ->
+                        dc.type == DocumentChange.Type.ADDED
+                    }
+                    // map document changes to firebase models
+                    val docList = dcList.map { it.document.toObject(clazz) }
+                    // emit values
+                    if (!emitter.isDisposed) emitter.onNext(docList)
+                }
+            }
+
+            // remote the listener when disposing
+            emitter.setCancellable { listener.remove() }
+        }
+    }
+
     // TODO - convert it to Single
-    fun <T> getObservableDocumentsByFieldValue(colReference: CollectionReference, fieldName: String,
+    fun <T : FirestoreModel> getObservableDocumentsByFieldValue(colReference: CollectionReference, fieldName: String,
                                                values: List<String>, clazz: Class<T>)
             : Observable<List<T>> {
 

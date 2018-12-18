@@ -7,7 +7,7 @@ import io.reactivex.Observable
 interface LocationService {
 
     /**
-     * This method adds a new user location obtained from a location service on the client.
+     * This method adds a new user location obtained from a location provider (from client).
      * @param userId User server ID
      * @param location A location model
      */
@@ -16,7 +16,7 @@ interface LocationService {
     /**
      * This methods gets user locations.
      * @param userId User server ID
-     * @param limit Defines how many records should be retrieved.
+     * @param limit Defines maximum records that can be emitted.
      */
     fun getLocations(userId: String, limit: Int): Observable<List<LocationModel>>
 }
